@@ -1,0 +1,28 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    ports:
+      - 5000:5000
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/chat-app
+      - JWT_SECRET=886829bddd06dd3c7521a46365cec36baad3ed46188f7971ab63d6f064e3eb3c9cb3f36dbd76f41f9a168b4c4887f893e89d2d7417dab6c3326ff6e5d899ce57e24abcbdbd1d43bfddd09f6bc8b6369d89c3ce94d568c52cb656825b1d9eb068d72a424942b99779f4165549932e10d8096e92c70f727b8337e959ab859130d8317c4116333b6de3ad12ba6a12b17886eac277543606eccc990db0f5ebe72d419aa11f00e3aaf46348c76036717572e1220a39bd0cd609f48ac6a8785efbc61d0b8f40f550eb8f0d4b83f2940c987a3d0a42ec4f7250c089f9d59518282eeae3926d2da57e5f145dbaa7600e711a2efcceec167c7de373dab452aa70ae942e33
+    depends_on:
+      - mongo
+
+  client:
+    build: ./client
+    ports:
+      - 80:80
+    depends_on:
+      - server
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
